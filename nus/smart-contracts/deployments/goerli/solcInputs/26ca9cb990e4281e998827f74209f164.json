@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Contract.sol": {
+      "content": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\ncontract Contract {\n    mapping(address => uint256) private balances;\n    mapping(address => uint256) private keys;\n\n\n    function send(address recipient, uint256 amount) public {\n        require(balances[msg.sender] >= amount, \"Insufficient funds\");\n        balances[msg.sender] -= amount;\n        balances[recipient] += amount;\n    }\n\n    function getBalance(address account) public view returns (uint256) {\n        return balances[account];\n    }\n\n    function getKeys(address account) public view returns (uint256) {\n        return keys[account];\n    }\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
