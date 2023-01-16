@@ -13,3 +13,15 @@ This Springboot backend was written for NUS' assessment. The application exposes
 1. Copy the variables in `application.properties-sample` and paste them into a `application.properties` file, with your own variable values.
 2. Run `./mvnw package` to install all components.
 3. Run the application using `./mvnw spring-boot:run`.
+
+## Logical Flowcharts
+### /accounts/send
+<p align="center">
+    <img src="src/main/resources/static/images/send.png">
+</p>
+
+
+## /accounts/get-balance
+<p align="center">
+    <img src="src/main/resources/static/images/get-balance.png">
+</p>
