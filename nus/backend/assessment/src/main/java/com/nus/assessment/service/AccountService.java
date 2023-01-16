@@ -144,10 +144,10 @@ public class AccountService {
     }
 
     public ResponseEntity<GetBalanceResponse> getBalance(String accountId) throws Exception {
-        log.info("Get balance request received...");
-
         // increment tx count
         txId++;
+
+        log.info("Get balance request received...");
 
         // timestamp
         long timestamp = System.currentTimeMillis();
