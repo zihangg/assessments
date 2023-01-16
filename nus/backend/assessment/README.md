@@ -21,7 +21,7 @@ This Springboot backend was written for NUS' assessment. The application exposes
 </p>
 
 
-## /accounts/get-balance
+### /accounts/get-balance
 <p align="center">
     <img src="src/main/resources/static/images/get-balance.png">
 </p>
