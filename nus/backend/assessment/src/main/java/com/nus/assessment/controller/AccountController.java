@@ -26,7 +26,7 @@ import com.nus.assessment.response.SendResponse;
 import com.nus.assessment.service.AccountService;
 
 @RestController
-@RequestMapping("accounts")
+@RequestMapping("api/v1/accounts")
 public class AccountController {
     
     @Autowired
