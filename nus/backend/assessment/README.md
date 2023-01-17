@@ -15,13 +15,14 @@ This Springboot backend was written for NUS' assessment. The application exposes
 3. Run the application using `./mvnw spring-boot:run`.
 
 ## Logical Flowcharts
-### /accounts/send
+### ```/accounts/send```
 <p align="center">
     <img src="src/main/resources/static/images/send.png">
 </p>
+<br>
 
 
-### /accounts/get-balance
+### ```/accounts/get-balance```
 <p align="center">
     <img src="src/main/resources/static/images/get-balance.png">
 </p>
