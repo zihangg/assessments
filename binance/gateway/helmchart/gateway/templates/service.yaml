@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helmchart.fullname" . }}-service
+spec:
+  type: {{ .Values.gateway.service.type }}
+  ports:
+    - port: {{ .Values.gateway.service.port }}
+      targetPort: {{ .Values.gateway.service.targetPort }}
+      protocol: TCP
+      name: gateway-backend      
+  selector:
+    {{- include "helmchart.selectorLabels" . | nindent 4 }}

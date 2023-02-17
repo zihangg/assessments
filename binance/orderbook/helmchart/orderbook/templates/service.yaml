@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helmchart.fullname" . }}-service
+spec:
+  type: {{ .Values.orderbook.service.type }}
+  ports:
+    - port: {{ .Values.orderbook.service.port }}
+      targetPort: {{ .Values.orderbook.service.targetPort }}
+      protocol: TCP
+      name: orderbook-backend      
+  selector:
+    {{- include "helmchart.selectorLabels" . | nindent 4 }}

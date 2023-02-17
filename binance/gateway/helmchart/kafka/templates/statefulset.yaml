@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  labels:
+    {{- include "helmchart.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "common.names.fullname" . }}
+  {{- if not .Values.kafka.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "helmchart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.kafka.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "helmchart.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.kafka.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "helmchart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.kafka.podSecurityContext | nindent 8 }}
+      containers:
+        - name: kafka
+          image: "{{ .Values.kafka.image.repository }}:{{ .Values.kafka.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.kafka.image.pullPolicy | quote }}
+          ports:
+            - name: kafka
+              containerPort: 9092
+          resources:
+            {{- toYaml .Values.kafka.resources | nindent 12 }}
+          env:
+          - name: KAFKA_VOLUME_DIR
+            value: {{ .Values.kafka.persistence.mountPath | quote }}
+          - name: KAFKA_LOG_DIR
+            value: {{ .Values.kafka.logPersistence.mountPath | quote }}
+          - name: ALLOW_PLAINTEXT_LISTENER
+            value: "yes"
+          - name: KAFKA_ZOOKEEPER_CONNECT
+            value: zookeeper:2181        
+      {{- with .Values.kafka.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.kafka.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.kafka.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

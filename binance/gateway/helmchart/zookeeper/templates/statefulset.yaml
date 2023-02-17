@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  labels:
+    {{- include "helmchart.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "common.names.fullname" . }}
+  {{- if not .Values.zookeeper.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "helmchart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.zookeeper.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "helmchart.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.zookeeper.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "helmchart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.zookeeper.podSecurityContext | nindent 8 }}
+      containers:
+        - name: zookeeper
+          image: "{{ .Values.zookeeper.image.repository }}:{{ .Values.zookeeper.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.zookeeper.image.pullPolicy | quote }}
+          ports:
+            - name: zookeeper
+              containerPort: 2181
+          resources:
+            {{- toYaml .Values.zookeeper.resources | nindent 12 }}
+          env:
+          - name: ALLOW_ANONYMOUS_LOGIN
+            value: "yes"
+      {{- with .Values.zookeeper.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.zookeeper.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.zookeeper.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

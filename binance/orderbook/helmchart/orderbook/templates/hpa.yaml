@@ -1,0 +1,28 @@
+{{- if .Values.orderbook.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "helmchart.fullname" . }}
+  labels:
+    {{- include "helmchart.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "helmchart.fullname" . }}
+  minReplicas: {{ .Values.orderbook.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.orderbook.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.orderbook.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.orderbook.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.orderbook.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.orderbook.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
