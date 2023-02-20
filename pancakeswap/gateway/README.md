@@ -1,5 +1,5 @@
 # Introduction
-This repository contains the barebone implementation of the `gateway` microservice for the Binance assessment.
+This repository contains the barebone implementation of the `gateway` microservice for the PancakeSwap assessment.
 
 # Installation
 1. Enter the helmchart folder with `cd helmchart`.

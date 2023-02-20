@@ -1,5 +1,5 @@
 # Introduction
-This repository contains the microservices required for the Binance assessment provided as below:
+This repository contains the microservices required for the PancakeSwap assessment provided as below:
 
 ```
 PancakeSwap BE interview

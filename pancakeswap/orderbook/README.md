@@ -1,5 +1,5 @@
 # Introduction
-This repository contains the barebone implementation of the `orderbook` microservice for the Binance assessment.
+This repository contains the barebone implementation of the `orderbook` microservice for the PancakeSwap assessment.
 
 # Installation
 1. (Required) Install `kafka` and `zookeeper` from the `gateway` repository.
